@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Exam-IQ • Mission 2026</title>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: #f8fafc;
+      min-height: 100vh;
+      font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+      color: #1e293b;
+      padding: 0;
+    }
+    .container {
+      max-width: 420px;
+      margin: auto;
+      background: white;
+      height: 100vh;
+      overflow-y: auto;
+      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+      position: relative;
+    }
+
+    /* ===== SCREENS ===== */
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* ===== LOGIN SCREEN ===== */
+    .login-container {
+      padding: 40px;
+      text-align: center;
+    }
+    .login-title {
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+      color: #1e293b;
+    }
+    .login-subtitle {
+      color: #64748b;
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+    }
+    .login-input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      font-size: 1rem;
+      outline: none;
+    }
+    .login-input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+    }
+    .login-btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 10px 0;
+      font-size: 1rem;
+    }
+    .btn-login { background: #3b82f6; color: white; }
+    .btn-signup { background: #10b981; color: white; }
+    .btn-google {
+      background: white;
+      color: #1e293b;
+      border: 1px solid #d1d5db;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .divider {
+      margin: 20px 0;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    /* ===== COMMON UI ===== */
+    .app-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: white;
+      border-bottom: 1px solid #e2e8f0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .menu-btn, .profile-icon {
+      color: #64748b;
+      font-size: 1.2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .app-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+    .mission-banner {
+      background: linear-gradient(90deg, #f0f9ff, #e0f2fe);
+      padding: 16px 20px;
+      text-align: center;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .mission-text {
+      font-size: 0.95rem;
+      color: #1e40af;
+      font-weight: 600;
+    }
+    .search-container { padding: 16px 20px; }
+    .search {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      font-size: 1rem;
+      outline: none;
+    }
+    .search:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+    }
+
+    /* ===== DAILY TEST CARD ===== */
+    .daily-card {
+      background: #fef3c7;
+      border-radius: 20px;
+      padding: 20px;
+      margin: 20px 20px 0;
+      text-align: center;
+      cursor: pointer;
+    }
+    .daily-icon {
+      font-size: 2.5rem;
+      color: #ea580c;
+      margin: 10px 0;
+    }
+    .daily-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 8px;
+    }
+    .daily-info {
+      color: #64748b;
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+    }
+    .daily-btn {
+      background: linear-gradient(90deg, #3b82f6, #2563eb);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 4px 8px rgba(59,130,246,0.2);
+    }
+
+    /* ===== PROFILE SCREEN ===== */
+    .user-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      background: #f1f5f9;
+      border-radius: 20px;
+      margin: 20px 20px 0;
+    }
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: #64748b;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 20px 20px 0;
+    }
+    .stat-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 12px;
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #1e293b;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-top: 4px;
+    }
+
+    /* ===== RESULT SCREEN ===== */
+    .result-card {
+      background: #f1f5f9;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      margin: 20px 20px 0;
+    }
+    .score-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #10b981;
+    }
+    .start-test-btn-result {
+      background: linear-gradient(90deg, #3b82f6, #2563eb);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      width: 100%;
+      margin: 15px 0;
+      box-shadow: 0 4px 8px rgba(59,130,246,0.2);
+    }
+
+    /* ===== TEST SCREEN ===== */
+    .option-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-card:hover { background: #f1f5f9; }
+    .option-card.selected { background: #dbeafe; border-color: #3b82f6; }
+    .option-letter { font-weight: bold; color: #3b82f6; min-width: 24px; }
+
+    /* ===== NAV BAR ===== */
+    .nav-bar {
+      display: flex;
+      justify-content: space-around;
+      background: white;
+      border-top: 1px solid #e2e8f0;
+      padding: 12px 0;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      color: #64748b;
+      font-size: 0.8rem;
+    }
+    .nav-item.active { color: #3b82f6; }
+    .nav-icon { font-size: 1.2rem; margin-bottom: 4px; }
+
+    @media (max-width: 480px) {
+      .container { max-width: 100%; height: 100vh; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen" class="screen active">
+      <div class="login-container">
+        <h2 class="login-title">Exam-IQ</h2>
+        <p class="login-subtitle">Mission 2026 की तैयारी शुरू करें</p>
+
+        <input type="email" id="emailInput" class="login-input" placeholder="ईमेल" />
+        <input type="password" id="passwordInput" class="login-input" placeholder="पासवर्ड (कम से कम 6 अक्षर)" />
+
+        <button id="loginBtn" class="login-btn btn-login">लॉगिन करें</button>
+        <button id="signupBtn" class="login-btn btn-signup">नया खाता बनाएँ</button>
+
+        <div class="divider">या</div>
+
+        <button id="googleLoginBtn" class="login-btn btn-google">
+          <i class="fab fa-google" style="color:#ea4335;"></i> Google से लॉगिन करें
+        </button>
+      </div>
+    </div>
+
+    <!-- HOME SCREEN -->
+    <div id="homeScreen" class="screen">
+      <div class="app-bar">
+        <button class="menu-btn"><i class="fas fa-bars"></i></button>
+        <div class="app-name">Exam-IQ</div>
+        <button class="profile-icon" onclick="showScreen('profileScreen')"><i class="fas fa-user"></i></button>
+      </div>
+      <div class="mission-banner">
+        <div class="mission-text">Mission 2026 की तैयारी का विश्वसनीय साथी</div>
+      </div>
+      <div class="search-container">
+        <input type="text" class="search" placeholder="टेस्ट या कैटेगरी खोजें..." />
+      </div>
+      <div class="daily-card" onclick="startDailyTest()">
+        <div class="daily-icon"><i class="fas fa-sync-alt"></i></div>
+        <div class="daily-title">Daily Test</div>
+        <div class="daily-info">100 प्रश्न • सभी टॉपिक्स से</div>
+        <button class="daily-btn">⚡ शुरू करें</button>
+      </div>
+    </div>
+
+    <!-- TEST SCREEN -->
+    <div id="testScreen" class="screen">
+      <div class="app-bar">
+        <button class="menu-btn" onclick="showScreen('homeScreen')"><i class="fas fa-arrow-left"></i></button>
+        <div class="app-name" id="testTitle">Loading...</div>
+        <div class="profile-icon" id="timerDisplay">90s</div>
+      </div>
+      <div style="height:6px; background:#e2e8f0; width:100%;">
+        <div id="progressFill" style="height:100%; background:#3b82f6; width:0%; transition:width 0.3s;"></div>
+      </div>
+      <div style="padding:20px;">
+        <div style="font-size:0.9rem; color:#64748b; margin-bottom:8px;">
+          प्रश्न <span id="qNumber">1</span> / <span id="qTotal">10</span>
+        </div>
+        <div id="questionText" style="font-size:1.1rem; font-weight:600; margin-bottom:20px; line-height:1.5;"></div>
+        <div id="optionsGrid" style="display:grid; gap:12px; margin-bottom:24px;"></div>
+        <div style="display:flex; gap:10px;">
+          <button id="prevBtn" style="flex:1; padding:12px; background:#f1f5f9; border:none; border-radius:12px; display:none;" onclick="renderQuestion(currentQuestionIndex - 1)">पिछला</button>
+          <button id="nextBtn" style="flex:1; padding:12px; background:#3b82f6; color:white; border:none; border-radius:12px; display:none;" onclick="renderQuestion(currentQuestionIndex + 1)">अगला</button>
+          <button id="submitBtn" style="flex:1; padding:12px; background:#10b981; color:white; border:none; border-radius:12px; display:none;" onclick="submitTest()">जमा करें</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div id="resultScreen" class="screen">
+      <div class="app-bar">
+        <button class="menu-btn" onclick="showScreen('homeScreen')"><i class="fas fa-arrow-left"></i></button>
+        <div class="app-name">Result</div>
+        <button class="profile-icon"><i class="fas fa-share-alt"></i></button>
+      </div>
+      <div class="result-card">
+        <div class="score-value" id="scoreValue">0</div>
+        <div>/ <span id="totalQuestions">0</span></div>
+        <div style="margin:15px 0; color:#64748b;">Accuracy: <span id="accuracyPercent">0</span>%</div>
+        <button class="start-test-btn-result" onclick="showScreen('homeScreen')">होम पर जाएँ</button>
+      </div>
+    </div>
+
+    <!-- PROFILE SCREEN -->
+    <div id="profileScreen" class="screen">
+      <div class="app-bar">
+        <button class="menu-btn" onclick="showScreen('homeScreen')"><i class="fas fa-arrow-left"></i></button>
+        <div class="app-name">Profile</div>
+        <button class="profile-icon"><i class="fas fa-cog"></i></button>
+      </div>
+      <div class="user-header">
+        <div class="user-avatar" id="profileInitial">U</div>
+        <div class="user-info">
+          <div class="user-name" id="profileName">User</div>
+          <div class="user-exam" id="profileExam">Target Exam: JPSC</div>
+          <div class="user-level" id="profileLevel">Beginner</div>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number" id="totalAttempts">0</div>
+          <div class="stat-label">प्रश्न प्रयास</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="correctCount">0</div>
+          <div class="stat-label">सही</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="wrongCount">0</div>
+          <div class="stat-label">गलत</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="skippedCount">0</div>
+          <div class="stat-label">छोड़े गए</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAVIGATION BAR -->
+    <div class="nav-bar" id="mainNav">
+      <div class="nav-item active" onclick="showScreen('homeScreen')">
+        <i class="fas fa-home nav-icon"></i><div>होम</div>
+      </div>
+      <div class="nav-item" onclick="alert('Tests section coming soon!')">
+        <i class="fas fa-file-alt nav-icon"></i><div>टेस्ट</div>
+      </div>
+      <div class="nav-item" onclick="alert('Results section coming soon!')">
+        <i class="fas fa-chart-line nav-icon"></i><div>रिजल्ट</div>
+      </div>
+      <div class="nav-item" onclick="showScreen('profileScreen')">
+        <i class="fas fa-user nav-icon"></i><div>प्रोफाइल</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== FIREBASE CONFIGURATION =====
+    firebase.initializeApp({
+      apiKey: "AIzaSyAkLZnHOp2-jXMiNzhIwZE-Fgs6OEb89rw",
+      authDomain: "quiz-app-64a74.firebaseapp.com",
+      projectId: "quiz-app-64a74",
+      storageBucket: "quiz-app-64a74.firebasestorage.app",
+      messagingSenderId: "665162938804",
+      appId: "1:665162938804:web:2066494d51f97ec2561ae1"
+    });
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // ===== GLOBAL VARIABLES =====
+    let currentUser = null;
+    let currentTest = null;
+    let userAnswers = [];
+    let currentQuestionIndex = 0;
+    let timerInterval = null;
+    let timePerQuestion = 90;
+
+    // ===== AUTHENTICATION HANDLERS =====
+    document.getElementById('loginBtn').addEventListener('click', () => {
+      const email = document.getElementById('emailInput').value;
+      const password = document.getElementById('passwordInput').value;
+      if (!email || !password) return alert("ईमेल और पासवर्ड भरें!");
+      auth.signInWithEmailAndPassword(email, password)
+        .catch(e => alert("लॉगिन त्रुटि: " + e.message));
+    });
+
+    document.getElementById('signupBtn').addEventListener('click', () => {
+      const email = document.getElementById('emailInput').value;
+      const password = document.getElementById('passwordInput').value;
+      if (!email || !password || password.length < 6) {
+        return alert("ईमेल भरें और पासवर्ड कम से कम 6 अक्षर का हो!");
+      }
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(async (cred) => {
+          await initUserProfile(cred.user.uid, email, email.split('@')[0]);
+        })
+        .catch(e => alert("खाता बनाने में त्रुटि: " + e.message));
+    });
+
+    document.getElementById('googleLoginBtn').addEventListener('click', () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(async (result) => {
+          const user = result.user;
+          const userDoc = await db.collection('users').doc(user.uid).get();
+          if (!userDoc.exists) {
+            await initUserProfile(user.uid, user.email, user.displayName || user.email.split('@')[0]);
+          }
+        })
+        .catch(e => alert("Google लॉगिन त्रुटि: " + e.message));
+    });
+
+    // ===== INITIALIZE NEW USER PROFILE IN FIRESTORE =====
+    async function initUserProfile(uid, email, name) {
+      await db.collection('users').doc(uid).set({
+        name: name,
+        email: email,
+        targetExam: "JPSC/JSLPS/SSC",
+        level: "Beginner",
+        stats: {
+          totalAttempts: 0,
+          correctCount: 0,
+          wrongCount: 0,
+          skippedCount: 0,
+          attemptedTests: 0,
+          lastWrongDate: null
+        },
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
+
+    // ===== ON AUTH STATE CHANGE (MAIN APP LOGIC) =====
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        const doc = await db.collection('users').doc(user.uid).get();
+        if (doc.exists) {
+          currentUser = { uid: user.uid, ...doc.data() };
+          updateProfileUI();
+          showScreen('homeScreen');
+        } else {
+          // Fallback: should not happen due to initUserProfile
+          await initUserProfile(user.uid, user.email, user.displayName || "User");
+          currentUser = { uid: user.uid, name: "User", stats: {} };
+          showScreen('homeScreen');
+        }
+      } else {
+        showScreen('loginScreen');
+      }
+    });
+
+    // ===== SHOW SCREEN & MANAGE NAV BAR =====
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      document.getElementById('mainNav').style.display = (id === 'loginScreen') ? 'none' : 'flex';
+
+      // Update active nav item
+      if (id !== 'loginScreen') {
+        document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+        if (id === 'homeScreen') document.querySelector('.nav-item:nth-child(1)').classList.add('active');
+        else if (id === 'profileScreen') document.querySelector('.nav-item:nth-child(4)').classList.add('active');
+      }
+    }
+
+    // ===== UPDATE PROFILE UI FROM FIRESTORE DATA =====
+    function updateProfileUI() {
+      if (!currentUser) return;
+      const name = currentUser.name || "User";
+      document.getElementById('profileName').textContent = name;
+      document.getElementById('profileInitial').textContent = name.charAt(0).toUpperCase();
+      document.getElementById('profileExam').textContent = `Target Exam: ${currentUser.targetExam || "JPSC"}`;
+      document.getElementById('profileLevel').textContent = currentUser.level || "Beginner";
+
+      const s = currentUser.stats || {};
+      document.getElementById('totalAttempts').textContent = s.totalAttempts || 0;
+      document.getElementById('correctCount').textContent = s.correctCount || 0;
+      document.getElementById('wrongCount').textContent = s.wrongCount || 0;
+      document.getElementById('skippedCount').textContent = s.skippedCount || 0;
+    }
+
+    // ===== MOCK TEST FUNCTIONS (replace with real logic later) =====
+    function startDailyTest() {
+      // For demo: show a sample question
+      currentTest = {
+        title: "Daily Test • Demo",
+        questions: [
+          {
+            q: "भारत की राजधानी क्या है?",
+            options: ["मुंबई", "कोलकाता", "नई दिल्ली", "चेन्नई"],
+            correct: "C"
+          }
+        ]
+      };
+      currentQuestionIndex = 0;
+      userAnswers = [{ answer: null, locked: false }];
+      showScreen('testScreen');
+      renderQuestion(0);
+    }
+
+    function renderQuestion(qIndex) {
+      if (!currentTest || !currentTest.questions[qIndex]) return;
+      const q = currentTest.questions[qIndex];
+      const total = currentTest.questions.length;
+
+      document.getElementById('qNumber').textContent = qIndex + 1;
+      document.getElementById('qTotal').textContent = total;
+      document.getElementById('questionText').textContent = q.q;
+      document.getElementById('testTitle').textContent = currentTest.title;
+      document.getElementById('progressFill').style.width = `${((qIndex + 1) / total) * 100}%`;
+
+      document.getElementById('prevBtn').style.display = qIndex > 0 ? 'block' : 'none';
+      document.getElementById('nextBtn').style.display = qIndex < total - 1 ? 'block' : 'none';
+      document.getElementById('submitBtn').style.display = qIndex === total - 1 ? 'block' : 'none';
+
+      const container = document.getElementById('optionsGrid');
+      container.innerHTML = '';
+      q.options.forEach((opt, i) => {
+        const letter = ['A','B','C','D'][i];
+        const isSelected = userAnswers[qIndex]?.answer === i;
+        const card = document.createElement('div');
+        card.className = `option-card ${isSelected ? 'selected' : ''}`;
+        card.innerHTML = `<div class="option-letter">${letter}</div><div>${opt}</div>`;
+        card.onclick = () => selectAnswer(qIndex, i);
+        container.appendChild(card);
+      });
+    }
+
+    function selectAnswer(qIndex, ansIndex) {
+      if (userAnswers[qIndex].locked) return;
+      userAnswers[qIndex] = { answer: ansIndex, locked: true };
+      renderQuestion(qIndex);
+    }
+
+    function submitTest() {
+      let correct = 0;
+      const total = currentTest.questions.length;
+      for (let i = 0; i < total; i++) {
+        const q = currentTest.questions[i];
+        const correctIndex = ['A','B','C','D'].indexOf(q.correct);
+        if (userAnswers[i].answer === correctIndex) correct++;
+      }
+
+      // Update UI
+      document.getElementById('scoreValue').textContent = correct;
+      document.getElementById('totalQuestions').textContent = total;
+      document.getElementById('accuracyPercent').textContent = Math.round((correct / total) * 100);
+
+      // Save to Firestore (if user logged in)
+      if (currentUser) {
+        const newStats = {
+          totalAttempts: (currentUser.stats.totalAttempts || 0) + total,
+          correctCount: (currentUser.stats.correctCount || 0) + correct,
+          wrongCount: (currentUser.stats.wrongCount || 0) + (total - correct),
+          skippedCount: (currentUser.stats.skippedCount || 0) + userAnswers.filter(a => a.answer === null).length,
+          attemptedTests: (currentUser.stats.attemptedTests || 0) + 1,
+          lastWrongDate: new Date().toISOString()
+        };
+
+        db.collection('users').doc(currentUser.uid).update({ stats: newStats })
+          .then(() => {
+            currentUser.stats = newStats;
+            updateProfileUI();
+          });
+      }
+
+      showScreen('resultScreen');
+    }
+  </script>
+</body>
+</html>
