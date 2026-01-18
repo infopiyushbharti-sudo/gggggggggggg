@@ -6,7 +6,6 @@
   <title>Exam-IQ • Mission 2026</title>
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -29,66 +28,7 @@
       position: relative;
     }
 
-    /* ===== SCREENS ===== */
-    .screen { display: none; }
-    .screen.active { display: block; }
-
-    /* ===== LOGIN SCREEN ===== */
-    .login-container {
-      padding: 40px;
-      text-align: center;
-    }
-    .login-title {
-      font-size: 1.8rem;
-      margin-bottom: 16px;
-      color: #1e293b;
-    }
-    .login-subtitle {
-      color: #64748b;
-      margin-bottom: 24px;
-      font-size: 0.95rem;
-    }
-    .login-input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #d1d5db;
-      border-radius: 12px;
-      font-size: 1rem;
-      outline: none;
-    }
-    .login-input:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
-    }
-    .login-btn {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      margin: 10px 0;
-      font-size: 1rem;
-    }
-    .btn-login { background: #3b82f6; color: white; }
-    .btn-signup { background: #10b981; color: white; }
-    .btn-google {
-      background: white;
-      color: #1e293b;
-      border: 1px solid #d1d5db;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    .divider {
-      margin: 20px 0;
-      color: #64748b;
-      font-size: 0.9rem;
-    }
-
-    /* ===== COMMON UI ===== */
+    /* ===== TOP APP BAR ===== */
     .app-bar {
       display: flex;
       justify-content: space-between;
@@ -100,7 +40,7 @@
       top: 0;
       z-index: 10;
     }
-    .menu-btn, .profile-icon {
+    .menu-btn {
       color: #64748b;
       font-size: 1.2rem;
       background: none;
@@ -112,6 +52,15 @@
       font-weight: 700;
       color: #1e293b;
     }
+    .profile-icon {
+      color: #64748b;
+      font-size: 1.2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* ===== MISSION BANNER ===== */
     .mission-banner {
       background: linear-gradient(90deg, #f0f9ff, #e0f2fe);
       padding: 16px 20px;
@@ -123,7 +72,11 @@
       color: #1e40af;
       font-weight: 600;
     }
-    .search-container { padding: 16px 20px; }
+
+    /* ===== SEARCH BAR ===== */
+    .search-container {
+      padding: 16px 20px;
+    }
     .search {
       width: 100%;
       padding: 12px 16px;
@@ -131,10 +84,11 @@
       border-radius: 12px;
       font-size: 1rem;
       outline: none;
+      background: #ffffff;
     }
     .search:focus {
       border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
 
     /* ===== DAILY TEST CARD ===== */
@@ -172,7 +126,207 @@
       font-size: 1rem;
       cursor: pointer;
       width: 100%;
-      box-shadow: 0 4px 8px rgba(59,130,246,0.2);
+      box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
+    }
+    .daily-btn:hover {
+      background: linear-gradient(90deg, #2563eb, #1d4ed8);
+    }
+
+    /* ===== QUICK CATEGORIES ===== */
+    .quick-categories {
+      padding: 20px;
+    }
+    .category-chip {
+      display: inline-block;
+      background: #f1f5f9;
+      color: #475569;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      margin-right: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .category-chip:hover {
+      background: #e2e8f0;
+    }
+    .category-chip.active {
+      background: #3b82f6;
+      color: white;
+    }
+
+    /* ===== MOTIVATION CARD ===== */
+    .motivation-card {
+      background: #e0f2fe;
+      border-radius: 20px;
+      padding: 16px;
+      margin: 20px 20px 0;
+      text-align: center;
+      font-size: 0.95rem;
+      color: #1e40af;
+      line-height: 1.5;
+    }
+
+    /* ===== CATEGORY FILTER CHIPS (Tests Page) ===== */
+    .filter-chips {
+      display: flex;
+      gap: 10px;
+      padding: 16px 20px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .filter-chip {
+      background: #f1f5f9;
+      color: #475569;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-chip:hover {
+      background: #e2e8f0;
+    }
+    .filter-chip.active {
+      background: #3b82f6;
+      color: white;
+    }
+
+    /* ===== FEATURED TESTS ===== */
+    .featured-section {
+      padding: 20px;
+    }
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 15px;
+    }
+    .test-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+    .test-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 8px;
+    }
+    .test-details {
+      display: flex;
+      gap: 10px;
+      color: #64748b;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+    }
+    .test-difficulty {
+      background: #f1f5f9;
+      color: #64748b;
+      padding: 2px 8px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+    }
+    .start-test-btn {
+      background: linear-gradient(90deg, #3b82f6, #2563eb);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      float: right;
+    }
+    .start-test-btn:hover {
+      background: linear-gradient(90deg, #2563eb, #1d4ed8);
+    }
+
+    /* ===== RESULT SCREEN ===== */
+    .result-card {
+      background: #f1f5f9;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      margin: 20px 20px 0;
+    }
+    .time-info {
+      display: flex;
+      gap: 12px;
+      color: #475569;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+    .score-ring {
+      width: 100px;
+      height: 100px;
+      border: 12px solid #d1fae5;
+      border-top: 12px solid #10b981;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 15px auto;
+      position: relative;
+    }
+    .score-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #10b981;
+    }
+    .score-total {
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+    .accuracy-box {
+      background: #e0f2fe;
+      padding: 8px 16px;
+      border-radius: 12px;
+      display: inline-block;
+      margin: 8px 0;
+      font-size: 0.9rem;
+    }
+    .start-test-btn-result {
+      background: linear-gradient(90deg, #3b82f6, #2563eb);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      width: 100%;
+      margin: 15px 0;
+      box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
+    }
+    .start-test-btn-result:hover {
+      background: linear-gradient(90deg, #2563eb, #1d4ed8);
+    }
+
+    .performance-snapshot {
+      padding: 20px;
+    }
+    .snapshot-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+    .snapshot-text {
+      font-size: 0.95rem;
+      color: #1e293b;
+    }
+    .snapshot-right {
+      color: #64748b;
+      font-size: 1.1rem;
     }
 
     /* ===== PROFILE SCREEN ===== */
@@ -196,9 +350,31 @@
       font-size: 1.2rem;
       color: #64748b;
     }
+    .user-info {
+      flex: 1;
+    }
+    .user-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+    .user-exam {
+      color: #475569;
+      font-size: 0.9rem;
+    }
+    .user-level {
+      background: #dbeafe;
+      color: #1d4ed8;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      display: inline-block;
+      margin-top: 8px;
+    }
+
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 10px;
       margin: 20px 20px 0;
     }
@@ -208,6 +384,7 @@
       border-radius: 16px;
       padding: 12px;
       text-align: center;
+      cursor: pointer;
     }
     .stat-number {
       font-size: 1.2rem;
@@ -220,49 +397,74 @@
       margin-top: 4px;
     }
 
-    /* ===== RESULT SCREEN ===== */
-    .result-card {
-      background: #f1f5f9;
+    .section {
+      background: #f8fafc;
+      border-radius: 20px;
+      padding: 20px;
+      margin: 20px 20px 0;
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .section-title-profile {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+    .section-more {
+      color: #64748b;
+      font-size: 1.1rem;
+    }
+    .section-list {
+      list-style: none;
+    }
+    .section-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #e2e8f0;
+      cursor: pointer;
+    }
+    .section-item:last-child {
+      border-bottom: none;
+    }
+    .section-item-text {
+      font-size: 0.95rem;
+      color: #1e293b;
+    }
+    .section-item-right {
+      color: #64748b;
+      font-size: 1.1rem;
+    }
+
+    .consistency-box {
+      background: #e0f2fe;
       border-radius: 20px;
       padding: 20px;
       text-align: center;
       margin: 20px 20px 0;
     }
-    .score-value {
-      font-size: 2.5rem;
-      font-weight: 800;
-      color: #10b981;
+    .consistency-icon {
+      font-size: 1.5rem;
+      color: #3b82f6;
+      margin-bottom: 10px;
     }
-    .start-test-btn-result {
-      background: linear-gradient(90deg, #3b82f6, #2563eb);
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 12px;
+    .consistency-text {
+      font-size: 1.1rem;
       font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      width: 100%;
-      margin: 15px 0;
-      box-shadow: 0 4px 8px rgba(59,130,246,0.2);
+      color: #1e293b;
+    }
+    .consistency-subtext {
+      font-size: 0.9rem;
+      color: #64748b;
+      margin-top: 4px;
     }
 
-    /* ===== TEST SCREEN ===== */
-    .option-card {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 14px;
-      display: flex;
-      gap: 12px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .option-card:hover { background: #f1f5f9; }
-    .option-card.selected { background: #dbeafe; border-color: #3b82f6; }
-    .option-letter { font-weight: bold; color: #3b82f6; min-width: 24px; }
-
-    /* ===== NAV BAR ===== */
+    /* ===== NAVIGATION BAR ===== */
     .nav-bar {
       display: flex;
       justify-content: space-around;
@@ -274,6 +476,7 @@
       left: 0;
       right: 0;
       z-index: 100;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
     }
     .nav-item {
       display: flex;
@@ -282,112 +485,257 @@
       cursor: pointer;
       color: #64748b;
       font-size: 0.8rem;
+      transition: color 0.2s;
     }
-    .nav-item.active { color: #3b82f6; }
-    .nav-icon { font-size: 1.2rem; margin-bottom: 4px; }
+    .nav-item.active {
+      color: #3b82f6;
+    }
+    .nav-icon {
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+    }
 
+    /* ===== SCREENS ===== */
+    .screen {
+      display: none;
+    }
+    .screen.active {
+      display: block;
+    }
+
+    /* ===== TEST SCREEN STYLES ===== */
+    .option-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-card:hover {
+      background: #f1f5f9;
+    }
+    .option-card.selected {
+      background: #dbeafe;
+      border-color: #3b82f6;
+    }
+    .option-card.correct {
+      background: #dcfce7;
+      border-color: #10b981;
+    }
+    .option-card.incorrect {
+      background: #fee2e2;
+      border-color: #ef4444;
+    }
+    .option-letter {
+      font-weight: bold;
+      color: #3b82f6;
+      min-width: 24px;
+    }
+
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 480px) {
-      .container { max-width: 100%; height: 100vh; }
+      .container {
+        max-width: 100%;
+        height: 100vh;
+      }
+      .app-name {
+        font-size: 1.1rem;
+      }
+      .daily-title {
+        font-size: 1.1rem;
+      }
+      .score-value {
+        font-size: 2rem;
+      }
+      .user-name {
+        font-size: 1rem;
+      }
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .stat-number {
+        font-size: 1rem;
+      }
+      .section-title, .section-title-profile {
+        font-size: 1rem;
+      }
+      .consistency-box {
+        padding: 16px;
+      }
+      .consistency-text {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- LOGIN SCREEN -->
-    <div id="loginScreen" class="screen active">
-      <div class="login-container">
-        <h2 class="login-title">Exam-IQ</h2>
-        <p class="login-subtitle">Mission 2026 की तैयारी शुरू करें</p>
-
-        <input type="email" id="emailInput" class="login-input" placeholder="ईमेल" />
-        <input type="password" id="passwordInput" class="login-input" placeholder="पासवर्ड (कम से कम 6 अक्षर)" />
-
-        <button id="loginBtn" class="login-btn btn-login">लॉगिन करें</button>
-        <button id="signupBtn" class="login-btn btn-signup">नया खाता बनाएँ</button>
-
-        <div class="divider">या</div>
-
-        <button id="googleLoginBtn" class="login-btn btn-google">
-          <i class="fab fa-google" style="color:#ea4335;"></i> Google से लॉगिन करें
-        </button>
-      </div>
-    </div>
-
     <!-- HOME SCREEN -->
-    <div id="homeScreen" class="screen">
+    <div id="homeScreen" class="screen active">
+      <!-- App Bar -->
       <div class="app-bar">
         <button class="menu-btn"><i class="fas fa-bars"></i></button>
         <div class="app-name">Exam-IQ</div>
         <button class="profile-icon" onclick="showScreen('profileScreen')"><i class="fas fa-user"></i></button>
       </div>
+
+      <!-- Mission Banner -->
       <div class="mission-banner">
         <div class="mission-text">Mission 2026 की तैयारी का विश्वसनीय साथी</div>
       </div>
+
+      <!-- Search Bar -->
       <div class="search-container">
-        <input type="text" class="search" placeholder="टेस्ट या कैटेगरी खोजें..." />
+        <input type="text" class="search" id="searchInput" placeholder="टेस्ट या कैटेगरी खोजें..." />
       </div>
+
+      <!-- Daily Test Card -->
       <div class="daily-card" onclick="startDailyTest()">
         <div class="daily-icon"><i class="fas fa-sync-alt"></i></div>
         <div class="daily-title">Daily Test</div>
         <div class="daily-info">100 प्रश्न • सभी टॉपिक्स से</div>
         <button class="daily-btn">⚡ शुरू करें</button>
       </div>
+
+      <!-- Quick Categories -->
+      <div class="quick-categories">
+        <div class="category-chip active" onclick="filterCategory('Lucent GK')">Lucent GK</div>
+        <div class="category-chip" onclick="filterCategory('Jharkhand GK')">Jharkhand GK</div>
+        <div class="category-chip" onclick="filterCategory('Maths')">Maths</div>
+        <div class="category-chip" onclick="filterCategory('Science')">Science</div>
+        <div class="category-chip" onclick="filterCategory('Polity')">Polity</div>
+      </div>
+
+      <!-- Motivation Card -->
+      <div class="motivation-card">
+        "एकाग्रता ही सफलता की कुंजी है — आज का टेस्ट आपको Mission 2026 के करीब ले जाएगा!"
+      </div>
     </div>
 
-    <!-- TEST SCREEN -->
-    <div id="testScreen" class="screen">
+    <!-- TESTS SCREEN -->
+    <div id="testsScreen" class="screen">
+      <!-- App Bar -->
       <div class="app-bar">
         <button class="menu-btn" onclick="showScreen('homeScreen')"><i class="fas fa-arrow-left"></i></button>
+        <div class="app-name">Tests</div>
+        <button class="profile-icon"><i class="fas fa-search"></i></button>
+      </div>
+
+      <!-- Category Filter Chips -->
+      <div class="filter-chips">
+        <div class="filter-chip active" onclick="showAllTests()">All</div>
+        <div class="filter-chip" onclick="filterCategory('GK')">GK</div>
+        <div class="filter-chip" onclick="filterCategory('Maths')">Maths</div>
+        <div class="filter-chip" onclick="filterCategory('Science')">Science</div>
+        <div class="filter-chip" onclick="filterCategory('Polity')">Polity</div>
+        <div class="filter-chip" onclick="filterCategory('Geography')">Geography</div>
+      </div>
+
+      <!-- Featured Tests -->
+      <div class="featured-section">
+        <div class="section-title">Featured Tests</div>
+        <div id="featuredTestsList">
+          <!-- Will be filled by JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <!-- TEST-TAKING SCREEN -->
+    <div id="testScreen" class="screen">
+      <div class="app-bar">
+        <button class="menu-btn" onclick="goBackFromTest()"><i class="fas fa-arrow-left"></i></button>
         <div class="app-name" id="testTitle">Loading...</div>
         <div class="profile-icon" id="timerDisplay">90s</div>
       </div>
+
+      <!-- Progress Bar -->
       <div style="height:6px; background:#e2e8f0; width:100%;">
         <div id="progressFill" style="height:100%; background:#3b82f6; width:0%; transition:width 0.3s;"></div>
       </div>
+
+      <!-- Question Area -->
       <div style="padding:20px;">
         <div style="font-size:0.9rem; color:#64748b; margin-bottom:8px;">
           प्रश्न <span id="qNumber">1</span> / <span id="qTotal">10</span>
         </div>
         <div id="questionText" style="font-size:1.1rem; font-weight:600; margin-bottom:20px; line-height:1.5;"></div>
+
+        <!-- Options Grid -->
         <div id="optionsGrid" style="display:grid; gap:12px; margin-bottom:24px;"></div>
+
+        <!-- Navigation Buttons -->
         <div style="display:flex; gap:10px;">
-          <button id="prevBtn" style="flex:1; padding:12px; background:#f1f5f9; border:none; border-radius:12px; display:none;" onclick="renderQuestion(currentQuestionIndex - 1)">पिछला</button>
-          <button id="nextBtn" style="flex:1; padding:12px; background:#3b82f6; color:white; border:none; border-radius:12px; display:none;" onclick="renderQuestion(currentQuestionIndex + 1)">अगला</button>
-          <button id="submitBtn" style="flex:1; padding:12px; background:#10b981; color:white; border:none; border-radius:12px; display:none;" onclick="submitTest()">जमा करें</button>
+          <button id="prevBtn" style="flex:1; padding:12px; background:#f1f5f9; border:none; border-radius:12px; display:none;" onclick="goBackFromTest()">
+            पिछला
+          </button>
+          <button id="nextBtn" style="flex:1; padding:12px; background:#3b82f6; color:white; border:none; border-radius:12px; display:none;" onclick="renderQuestion(currentQuestionIndex + 1)">
+            अगला
+          </button>
+          <button id="submitBtn" style="flex:1; padding:12px; background:#10b981; color:white; border:none; border-radius:12px; display:none;" onclick="submitTest()">
+            जमा करें
+          </button>
         </div>
       </div>
     </div>
 
     <!-- RESULT SCREEN -->
     <div id="resultScreen" class="screen">
+      <!-- App Bar -->
       <div class="app-bar">
         <button class="menu-btn" onclick="showScreen('homeScreen')"><i class="fas fa-arrow-left"></i></button>
         <div class="app-name">Result</div>
         <button class="profile-icon"><i class="fas fa-share-alt"></i></button>
       </div>
+
+      <!-- Score Card -->
       <div class="result-card">
-        <div class="score-value" id="scoreValue">0</div>
-        <div>/ <span id="totalQuestions">0</span></div>
-        <div style="margin:15px 0; color:#64748b;">Accuracy: <span id="accuracyPercent">0</span>%</div>
-        <button class="start-test-btn-result" onclick="showScreen('homeScreen')">होम पर जाएँ</button>
+        <div class="time-info">
+          <span><i class="far fa-clock"></i> समय : <span id="resultTime">0m 0s</span></span>
+        </div>
+        <div class="score-ring">
+          <div>
+            <div class="score-value" id="scoreValue">0</div>
+            <div class="score-total">/ <span id="totalQuestions">0</span></div>
+          </div>
+        </div>
+        <div class="accuracy-box">
+          <i class="fas fa-check-circle"></i> Accuracy: <span id="accuracyPercent">0</span>%
+        </div>
+        <button class="start-test-btn-result" onclick="reAttemptTest()">Re-attempt</button>
+      </div>
+
+      <!-- Performance Snapshot -->
+      <div class="performance-snapshot">
+        <div class="section-title">Performance Snapshot</div>
+        <div id="performanceSnapshot">
+          <!-- Will be filled by JavaScript -->
+        </div>
       </div>
     </div>
 
     <!-- PROFILE SCREEN -->
     <div id="profileScreen" class="screen">
+      <!-- App Bar -->
       <div class="app-bar">
         <button class="menu-btn" onclick="showScreen('homeScreen')"><i class="fas fa-arrow-left"></i></button>
         <div class="app-name">Profile</div>
         <button class="profile-icon"><i class="fas fa-cog"></i></button>
       </div>
+
+      <!-- User Header -->
       <div class="user-header">
-        <div class="user-avatar" id="profileInitial">U</div>
+        <div class="user-avatar">P</div>
         <div class="user-info">
-          <div class="user-name" id="profileName">User</div>
-          <div class="user-exam" id="profileExam">Target Exam: JPSC</div>
-          <div class="user-level" id="profileLevel">Beginner</div>
+          <div class="user-name">Piyush Bharti</div>
+          <div class="user-exam">Target Exam: JPSC/JSLPS/SSC</div>
+          <div class="user-level">Beginner</div>
         </div>
       </div>
+
+      <!-- Stats Grid -->
       <div class="stats-grid">
         <div class="stat-item">
           <div class="stat-number" id="totalAttempts">0</div>
@@ -395,38 +743,117 @@
         </div>
         <div class="stat-item">
           <div class="stat-number" id="correctCount">0</div>
-          <div class="stat-label">सही</div>
+          <div class="stat-label">Correct</div>
         </div>
         <div class="stat-item">
           <div class="stat-number" id="wrongCount">0</div>
-          <div class="stat-label">गलत</div>
+          <div class="stat-label">Wrong</div>
         </div>
         <div class="stat-item">
           <div class="stat-number" id="skippedCount">0</div>
-          <div class="stat-label">छोड़े गए</div>
+          <div class="stat-label">Skipped</div>
         </div>
+      </div>
+
+      <!-- My Activity -->
+      <div class="section">
+        <div class="section-header">
+          <div class="section-title-profile">My Activity</div>
+          <div class="section-more"><i class="fas fa-chevron-right"></i></div>
+        </div>
+        <ul class="section-list">
+          <li class="section-item">
+            <div class="section-item-text">Attempted Tests</div>
+            <div class="section-item-right" id="attemptedTests">0</div>
+          </li>
+          <li class="section-item">
+            <div class="section-item-text">Bookmarked Questions</div>
+            <div class="section-item-right"><i class="fas fa-chevron-right"></i></div>
+          </li>
+          <li class="section-item">
+            <div class="section-item-text">Wrong Questions</div>
+            <div class="section-item-right" id="wrongDays">0 Days</div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Goals & Exam -->
+      <div class="section">
+        <div class="section-header">
+          <div class="section-title-profile">Goals & Exam</div>
+          <div class="section-more"><i class="fas fa-chevron-right"></i></div>
+        </div>
+        <ul class="section-list">
+          <li class="section-item">
+            <div class="section-item-text">Selected Exam</div>
+            <div class="section-item-right">JPSC</div>
+          </li>
+          <li class="section-item">
+            <div class="section-item-text">Target Year</div>
+            <div class="section-item-right">2026</div>
+          </li>
+          <li class="section-item">
+            <div class="section-item-text">Daily Practice Goal</div>
+            <div class="section-item-right">
+              <button style="background:#3b82f6; color:white; border:none; padding:4px 12px; border-radius:8px; font-size:0.8rem;">Update Goal</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Consistency Box -->
+      <div class="consistency-box">
+        <div class="consistency-icon"><i class="fas fa-chart-line"></i></div>
+        <div class="consistency-text">Consistency ही</div>
+        <div class="consistency-subtext">सफलता की मुख्य चाबी है!</div>
+      </div>
+
+      <!-- Help / About -->
+      <div class="section">
+        <ul class="section-list">
+          <li class="section-item">
+            <div class="section-item-text">Contact Us</div>
+            <div class="section-item-right"><i class="fas fa-chevron-right"></i></div>
+          </li>
+          <li class="section-item">
+            <div class="section-item-text">Help / FAQ</div>
+            <div class="section-item-right"><i class="fas fa-chevron-right"></i></div>
+          </li>
+          <li class="section-item">
+            <div class="section-item-text">Privacy Policy</div>
+            <div class="section-item-right"><i class="fas fa-chevron-right"></i></div>
+          </li>
+          <li class="section-item">
+            <div class="section-item-text">About Exam-IQ</div>
+            <div class="section-item-right"><i class="fas fa-chevron-right"></i></div>
+          </li>
+        </ul>
       </div>
     </div>
 
     <!-- NAVIGATION BAR -->
-    <div class="nav-bar" id="mainNav">
+    <div class="nav-bar">
       <div class="nav-item active" onclick="showScreen('homeScreen')">
-        <i class="fas fa-home nav-icon"></i><div>होम</div>
+        <i class="fas fa-home nav-icon"></i>
+        <div>होम</div>
       </div>
-      <div class="nav-item" onclick="alert('Tests section coming soon!')">
-        <i class="fas fa-file-alt nav-icon"></i><div>टेस्ट</div>
+      <div class="nav-item" onclick="showScreen('testsScreen')">
+        <i class="fas fa-file-alt nav-icon"></i>
+        <div>टेस्ट</div>
       </div>
-      <div class="nav-item" onclick="alert('Results section coming soon!')">
-        <i class="fas fa-chart-line nav-icon"></i><div>रिजल्ट</div>
+      <div class="nav-item" onclick="showScreen('resultScreen')">
+        <i class="fas fa-chart-line nav-icon"></i>
+        <div>रिजल्ट</div>
       </div>
       <div class="nav-item" onclick="showScreen('profileScreen')">
-        <i class="fas fa-user nav-icon"></i><div>प्रोफाइल</div>
+        <i class="fas fa-user nav-icon"></i>
+        <div>प्रोफाइल</div>
       </div>
     </div>
   </div>
 
   <script>
-    // ===== FIREBASE CONFIGURATION =====
+    // ===== FIREBASE INITIALIZATION =====
     firebase.initializeApp({
       apiKey: "AIzaSyAkLZnHOp2-jXMiNzhIwZE-Fgs6OEb89rw",
       authDomain: "quiz-app-64a74.firebaseapp.com",
@@ -435,207 +862,431 @@
       messagingSenderId: "665162938804",
       appId: "1:665162938804:web:2066494d51f97ec2561ae1"
     });
-    const auth = firebase.auth();
     const db = firebase.firestore();
 
     // ===== GLOBAL VARIABLES =====
-    let currentUser = null;
+    let allTests = [];
     let currentTest = null;
     let userAnswers = [];
     let currentQuestionIndex = 0;
     let timerInterval = null;
     let timePerQuestion = 90;
+    let timeLeft = timePerQuestion;
+    let totalTimeUsed = 0;
+    let currentUser = {
+      uid: "user_123",
+      name: "Piyush Bharti",
+      targetExam: "JPSC/JSLPS/SSC",
+      level: "Beginner"
+    };
 
-    // ===== AUTHENTICATION HANDLERS =====
-    document.getElementById('loginBtn').addEventListener('click', () => {
-      const email = document.getElementById('emailInput').value;
-      const password = document.getElementById('passwordInput').value;
-      if (!email || !password) return alert("ईमेल और पासवर्ड भरें!");
-      auth.signInWithEmailAndPassword(email, password)
-        .catch(e => alert("लॉगिन त्रुटि: " + e.message));
-    });
+    // ===== USER STATS =====
+    let userStats = {
+      totalAttempts: 0,
+      correctCount: 0,
+      wrongCount: 0,
+      skippedCount: 0,
+      attemptedTests: 0,
+      lastWrongDate: new Date(),
+      dailyGoal: 5
+    };
 
-    document.getElementById('signupBtn').addEventListener('click', () => {
-      const email = document.getElementById('emailInput').value;
-      const password = document.getElementById('passwordInput').value;
-      if (!email || !password || password.length < 6) {
-        return alert("ईमेल भरें और पासवर्ड कम से कम 6 अक्षर का हो!");
+    // Load stats from localStorage if available
+    const savedStats = localStorage.getItem('userStats');
+    if (savedStats) {
+      userStats = JSON.parse(savedStats);
+    }
+
+    // ===== UPDATE TIMER DISPLAY =====
+    function updateTimerDisplay() {
+      const timerEl = document.getElementById('timerDisplay');
+      if (timerEl) {
+        timerEl.textContent = timeLeft + 's';
       }
-      auth.createUserWithEmailAndPassword(email, password)
-        .then(async (cred) => {
-          await initUserProfile(cred.user.uid, email, email.split('@')[0]);
-        })
-        .catch(e => alert("खाता बनाने में त्रुटि: " + e.message));
-    });
+    }
 
-    document.getElementById('googleLoginBtn').addEventListener('click', () => {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      auth.signInWithPopup(provider)
-        .then(async (result) => {
-          const user = result.user;
-          const userDoc = await db.collection('users').doc(user.uid).get();
-          if (!userDoc.exists) {
-            await initUserProfile(user.uid, user.email, user.displayName || user.email.split('@')[0]);
-          }
-        })
-        .catch(e => alert("Google लॉगिन त्रुटि: " + e.message));
-    });
+    // ===== LOAD ALL TESTS FROM FIRESTORE =====
+    async function loadAllTests() {
+      try {
+        const snapshot = await db.collection('tests').get();
+        allTests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        console.log("✅ Loaded", allTests.length, "tests");
+        renderHomeCategories();
+        renderFeaturedTests();
+        updateProfileStats();
+      } catch (e) {
+        console.error("❌ Load error:", e);
+        document.getElementById('featuredTestsList').innerHTML = `
+          <div style="text-align:center; padding:20px; color:#64748b;">
+            <i class="fas fa-exclamation-triangle"></i><br>
+            टेस्ट लोड नहीं हो सके।<br>
+            <button onclick="loadAllTests()" style="margin-top:10px; background:#3b82f6; color:white; border:none; padding:6px 12px; border-radius:8px; font-size:0.8rem;">
+              रीट्राई करें
+            </button>
+          </div>
+        `;
+      }
+    }
 
-    // ===== INITIALIZE NEW USER PROFILE IN FIRESTORE =====
-    async function initUserProfile(uid, email, name) {
-      await db.collection('users').doc(uid).set({
-        name: name,
-        email: email,
-        targetExam: "JPSC/JSLPS/SSC",
-        level: "Beginner",
-        stats: {
-          totalAttempts: 0,
-          correctCount: 0,
-          wrongCount: 0,
-          skippedCount: 0,
-          attemptedTests: 0,
-          lastWrongDate: null
-        },
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    // ===== RENDER HOME CATEGORIES =====
+    function renderHomeCategories() {
+      const categories = [...new Set(allTests.map(t => t.category || 'अन्य'))];
+      const categoryChips = document.querySelectorAll('.category-chip');
+      categoryChips.forEach(chip => {
+        if (categories.includes(chip.textContent)) {
+          chip.style.display = 'inline-block';
+        } else {
+          chip.style.display = 'none';
+        }
       });
     }
 
-    // ===== ON AUTH STATE CHANGE (MAIN APP LOGIC) =====
-    auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        const doc = await db.collection('users').doc(user.uid).get();
-        if (doc.exists) {
-          currentUser = { uid: user.uid, ...doc.data() };
-          updateProfileUI();
-          showScreen('homeScreen');
+    // ===== RENDER FEATURED TESTS =====
+    function renderFeaturedTests() {
+      const featuredContainer = document.getElementById('featuredTestsList');
+      let html = '';
+
+      // Daily Test
+      html += `
+        <div class="test-item">
+          <div>
+            <div class="test-title">Daily Test</div>
+            <div class="test-details">
+              <span><i class="far fa-clock"></i> 90 प्रश्न • 30 मिनट</span>
+            </div>
+          </div>
+          <button class="start-test-btn" onclick="startDailyTest()">Start Test</button>
+        </div>
+      `;
+
+      // Top 3 tests by attempts
+      const sortedTests = [...allTests].sort((a, b) => {
+        return (b.attempts || 0) - (a.attempts || 0);
+      }).slice(0, 3);
+
+      sortedTests.forEach(test => {
+        const difficulty = test.difficulty || 'Medium';
+        html += `
+          <div class="test-item">
+            <div>
+              <div class="test-title">${test.title}</div>
+              <div class="test-details">
+                <span><i class="far fa-clock"></i> ${test.questions?.length || 0} प्रश्न • ${test.duration || 20} मिनट</span>
+                <span class="test-difficulty">${difficulty}</span>
+              </div>
+            </div>
+            <button class="start-test-btn" onclick="startTest('${test.id}')">Start Test</button>
+          </div>
+        `;
+      });
+
+      featuredContainer.innerHTML = html;
+    }
+
+    // ===== START DAILY TEST =====
+    async function startDailyTest() {
+      if (allTests.length === 0) {
+        alert("कोई टेस्ट उपलब्ध नहीं है!");
+        return;
+      }
+
+      let allQuestions = [];
+      allTests.forEach(test => {
+        if (test.questions && test.questions.length > 0) {
+          test.questions.forEach(q => {
+            allQuestions.push({ ...q, source: test.title });
+          });
+        }
+      });
+
+      if (allQuestions.length === 0) {
+        alert("कोई प्रश्न उपलब्ध नहीं है!");
+        return;
+      }
+
+      const totalToPick = Math.min(100, allQuestions.length);
+      const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
+      const selectedQuestions = shuffled.slice(0, totalToPick);
+
+      const dailyTest = {
+        id: 'daily-test-' + Date.now(),
+        title: `Daily Challenge • ${new Date().toLocaleDateString('hi-IN')}`,
+        category: 'Daily Challenge',
+        questions: selectedQuestions,
+        duration: 120
+      };
+
+      currentTest = dailyTest;
+      currentQuestionIndex = 0;
+      userAnswers = Array(selectedQuestions.length).fill(null).map(() => ({ answer: null, locked: false }));
+      
+      showScreen('testScreen');
+      renderQuestion(currentQuestionIndex);
+    }
+
+    // ===== START TEST BY ID =====
+    function startTest(testId) {
+      const test = allTests.find(t => t.id === testId);
+      if (!test) {
+        alert("टेस्ट नहीं मिला!");
+        return;
+      }
+
+      currentTest = test;
+      currentQuestionIndex = 0;
+      
+      const draft = localStorage.getItem(`draft_${testId}`);
+      if (draft) {
+        const draftData = JSON.parse(draft);
+        if (confirm(`आपने पहले यह टेस्ट शुरू किया था। क्या आप पिछले उत्तरों के साथ जारी रखना चाहते हैं?`)) {
+          userAnswers = draftData.answers;
         } else {
-          // Fallback: should not happen due to initUserProfile
-          await initUserProfile(user.uid, user.email, user.displayName || "User");
-          currentUser = { uid: user.uid, name: "User", stats: {} };
-          showScreen('homeScreen');
+          userAnswers = Array(currentTest.questions.length).fill(null).map(() => ({ answer: null, locked: false }));
         }
       } else {
-        showScreen('loginScreen');
+        userAnswers = Array(currentTest.questions.length).fill(null).map(() => ({ answer: null, locked: false }));
       }
-    });
-
-    // ===== SHOW SCREEN & MANAGE NAV BAR =====
-    function showScreen(id) {
-      document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      document.getElementById('mainNav').style.display = (id === 'loginScreen') ? 'none' : 'flex';
-
-      // Update active nav item
-      if (id !== 'loginScreen') {
-        document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-        if (id === 'homeScreen') document.querySelector('.nav-item:nth-child(1)').classList.add('active');
-        else if (id === 'profileScreen') document.querySelector('.nav-item:nth-child(4)').classList.add('active');
-      }
-    }
-
-    // ===== UPDATE PROFILE UI FROM FIRESTORE DATA =====
-    function updateProfileUI() {
-      if (!currentUser) return;
-      const name = currentUser.name || "User";
-      document.getElementById('profileName').textContent = name;
-      document.getElementById('profileInitial').textContent = name.charAt(0).toUpperCase();
-      document.getElementById('profileExam').textContent = `Target Exam: ${currentUser.targetExam || "JPSC"}`;
-      document.getElementById('profileLevel').textContent = currentUser.level || "Beginner";
-
-      const s = currentUser.stats || {};
-      document.getElementById('totalAttempts').textContent = s.totalAttempts || 0;
-      document.getElementById('correctCount').textContent = s.correctCount || 0;
-      document.getElementById('wrongCount').textContent = s.wrongCount || 0;
-      document.getElementById('skippedCount').textContent = s.skippedCount || 0;
-    }
-
-    // ===== MOCK TEST FUNCTIONS (replace with real logic later) =====
-    function startDailyTest() {
-      // For demo: show a sample question
-      currentTest = {
-        title: "Daily Test • Demo",
-        questions: [
-          {
-            q: "भारत की राजधानी क्या है?",
-            options: ["मुंबई", "कोलकाता", "नई दिल्ली", "चेन्नई"],
-            correct: "C"
-          }
-        ]
-      };
-      currentQuestionIndex = 0;
-      userAnswers = [{ answer: null, locked: false }];
+      
       showScreen('testScreen');
-      renderQuestion(0);
+      renderQuestion(currentQuestionIndex);
     }
 
+    // ===== GO BACK FROM TEST SCREEN =====
+    function goBackFromTest() {
+      if (currentQuestionIndex > 0) {
+        renderQuestion(currentQuestionIndex - 1);
+      } else {
+        showScreen('testsScreen');
+      }
+    }
+
+    // ===== RENDER QUESTION =====
     function renderQuestion(qIndex) {
-      if (!currentTest || !currentTest.questions[qIndex]) return;
+      if (!currentTest || !currentTest.questions || qIndex >= currentTest.questions.length) return;
+      
+      currentQuestionIndex = qIndex;
       const q = currentTest.questions[qIndex];
       const total = currentTest.questions.length;
-
+      
       document.getElementById('qNumber').textContent = qIndex + 1;
       document.getElementById('qTotal').textContent = total;
       document.getElementById('questionText').textContent = q.q;
-      document.getElementById('testTitle').textContent = currentTest.title;
       document.getElementById('progressFill').style.width = `${((qIndex + 1) / total) * 100}%`;
-
+      document.getElementById('testTitle').textContent = currentTest.title;
+      
       document.getElementById('prevBtn').style.display = qIndex > 0 ? 'block' : 'none';
-      document.getElementById('nextBtn').style.display = qIndex < total - 1 ? 'block' : 'none';
-      document.getElementById('submitBtn').style.display = qIndex === total - 1 ? 'block' : 'none';
-
-      const container = document.getElementById('optionsGrid');
-      container.innerHTML = '';
+      if (qIndex === total - 1) {
+        document.getElementById('nextBtn').style.display = 'none';
+        document.getElementById('submitBtn').style.display = 'block';
+      } else {
+        document.getElementById('nextBtn').style.display = 'block';
+        document.getElementById('submitBtn').style.display = 'none';
+      }
+      
+      const optionsContainer = document.getElementById('optionsGrid');
+      optionsContainer.innerHTML = '';
       q.options.forEach((opt, i) => {
-        const letter = ['A','B','C','D'][i];
-        const isSelected = userAnswers[qIndex]?.answer === i;
-        const card = document.createElement('div');
-        card.className = `option-card ${isSelected ? 'selected' : ''}`;
-        card.innerHTML = `<div class="option-letter">${letter}</div><div>${opt}</div>`;
-        card.onclick = () => selectAnswer(qIndex, i);
-        container.appendChild(card);
+        const letter = ['A', 'B', 'C', 'D'][i];
+        const userAns = userAnswers[qIndex];
+        let isSelected = false;
+        let isCorrect = false;
+        let showResult = false;
+
+        if (userAns.locked) {
+          showResult = true;
+          isSelected = (userAns.answer === i);
+          const correctIndex = ['A','B','C','D'].indexOf(q.correct);
+          isCorrect = (i === correctIndex);
+        }
+
+        let classes = 'option-card';
+        if (showResult) {
+          if (isCorrect) {
+            classes += ' correct';
+          } else if (isSelected) {
+            classes += ' incorrect';
+          }
+        } else if (userAns.answer === i) {
+          classes += ' selected';
+        }
+        
+        const optionCard = document.createElement('div');
+        optionCard.className = classes;
+        optionCard.innerHTML = `
+          <div class="option-letter">${letter}</div>
+          <div>${opt}</div>
+        `;
+        
+        if (!userAns.locked) {
+          optionCard.onclick = () => selectAnswer(qIndex, i);
+        }
+        
+        optionsContainer.appendChild(optionCard);
       });
+      
+      localStorage.setItem(`draft_${currentTest.id}`, JSON.stringify({
+        answers: userAnswers,
+        qIndex: qIndex
+      }));
+      
+      if (timerInterval) clearInterval(timerInterval);
+      timeLeft = timePerQuestion;
+      updateTimerDisplay();
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          if (userAnswers[qIndex].answer === null) {
+            userAnswers[qIndex] = { answer: null, locked: true };
+          }
+          if (qIndex < total - 1) {
+            renderQuestion(qIndex + 1);
+          } else {
+            submitTest();
+          }
+        }
+      }, 1000);
     }
 
+    // ===== SELECT ANSWER =====
     function selectAnswer(qIndex, ansIndex) {
       if (userAnswers[qIndex].locked) return;
       userAnswers[qIndex] = { answer: ansIndex, locked: true };
       renderQuestion(qIndex);
     }
 
+    // ===== SUBMIT TEST =====
     function submitTest() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        totalTimeUsed += (timePerQuestion - timeLeft);
+      }
+      
       let correct = 0;
       const total = currentTest.questions.length;
       for (let i = 0; i < total; i++) {
         const q = currentTest.questions[i];
         const correctIndex = ['A','B','C','D'].indexOf(q.correct);
-        if (userAnswers[i].answer === correctIndex) correct++;
+        if (userAnswers[i].answer !== null && userAnswers[i].answer === correctIndex) {
+          correct++;
+        }
       }
+      
+      // Update user stats
+      userStats.totalAttempts += total;
+      userStats.correctCount += correct;
+      userStats.wrongCount += (total - correct);
+      userStats.skippedCount += userAnswers.filter(a => a.answer === null).length;
+      userStats.attemptedTests += 1;
+      userStats.lastWrongDate = new Date();
 
-      // Update UI
+      // Save to localStorage
+      localStorage.setItem('userStats', JSON.stringify(userStats));
+      localStorage.setItem(`completed_${currentTest.id}`, 'true');
+      localStorage.removeItem(`draft_${currentTest.id}`);
+
+      // Show result screen
       document.getElementById('scoreValue').textContent = correct;
       document.getElementById('totalQuestions').textContent = total;
       document.getElementById('accuracyPercent').textContent = Math.round((correct / total) * 100);
+      document.getElementById('resultTime').textContent = formatTime(totalTimeUsed);
+      showScreen('resultScreen');
 
-      // Save to Firestore (if user logged in)
-      if (currentUser) {
-        const newStats = {
-          totalAttempts: (currentUser.stats.totalAttempts || 0) + total,
-          correctCount: (currentUser.stats.correctCount || 0) + correct,
-          wrongCount: (currentUser.stats.wrongCount || 0) + (total - correct),
-          skippedCount: (currentUser.stats.skippedCount || 0) + userAnswers.filter(a => a.answer === null).length,
-          attemptedTests: (currentUser.stats.attemptedTests || 0) + 1,
-          lastWrongDate: new Date().toISOString()
-        };
+      // Update profile stats
+      updateProfileStats();
+    }
 
-        db.collection('users').doc(currentUser.uid).update({ stats: newStats })
-          .then(() => {
-            currentUser.stats = newStats;
-            updateProfileUI();
-          });
+    // ===== UPDATE PROFILE STATS =====
+    function updateProfileStats() {
+      const stats = JSON.parse(localStorage.getItem('userStats')) || userStats;
+      document.getElementById('totalAttempts').textContent = stats.totalAttempts;
+      document.getElementById('correctCount').textContent = stats.correctCount;
+      document.getElementById('wrongCount').textContent = stats.wrongCount;
+      document.getElementById('skippedCount').textContent = stats.skippedCount;
+      document.getElementById('attemptedTests').textContent = stats.attemptedTests;
+      document.getElementById('wrongDays').textContent = calculateDaysSince(stats.lastWrongDate);
+    }
+
+    // ===== FORMAT TIME =====
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return `${mins}m ${secs}s`;
+    }
+
+    // ===== CALCULATE DAYS SINCE =====
+    function calculateDaysSince(date) {
+      const now = new Date();
+      const diffTime = now - new Date(date);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return `${diffDays} Days`;
+    }
+
+    // ===== RE-ATTEMPT TEST =====
+    function reAttemptTest() {
+      if (!currentTest) return;
+      currentQuestionIndex = 0;
+      userAnswers = Array(currentTest.questions.length).fill(null).map(() => ({ answer: null, locked: false }));
+      showScreen('testScreen');
+      renderQuestion(currentQuestionIndex);
+    }
+
+    // ===== SHOW SCREEN =====
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+
+      // Update nav bar
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      if (id === 'homeScreen') {
+        document.querySelector('.nav-item:nth-child(1)').classList.add('active');
+      } else if (id === 'testsScreen' || id === 'testScreen') {
+        document.querySelector('.nav-item:nth-child(2)').classList.add('active');
+      } else if (id === 'resultScreen') {
+        document.querySelector('.nav-item:nth-child(3)').classList.add('active');
+      } else if (id === 'profileScreen') {
+        document.querySelector('.nav-item:nth-child(4)').classList.add('active');
+      }
+    }
+
+    // ===== FILTER CATEGORY =====
+    function filterCategory(category) {
+      if (category === 'All') {
+        showAllTests();
+        return;
       }
 
-      showScreen('resultScreen');
+      const filtered = allTests.filter(t => t.category === category);
+      const container = document.getElementById('featuredTestsList');
+      let html = '';
+
+      filtered.forEach(test => {
+        const difficulty = test.difficulty || 'Medium';
+        html += `
+          <div class="test-item">
+            <div>
+              <div class="test-title">${test.title}</div>
+              <div class="test-details">
+                <span><i class="far fa-clock"></i> ${test.questions?.length || 0} प्रश्न • ${test.duration || 20} मिनट</span>
+                <span class="test-difficulty">${difficulty}</span>
+              </div>
+            </div>
+            <button class="start-test-btn" onclick="startTest('${test.id}')">Start Test</button>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
     }
+
+    // ===== SHOW ALL TESTS =====
+    function showAllTests() {
+      renderFeaturedTests();
+    }
+
+    // ===== INITIALIZE =====
+    loadAllTests();
   </script>
 </body>
 </html>
